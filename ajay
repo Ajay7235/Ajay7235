@@ -1,0 +1,117 @@
+- 👋 Hi, I’m @Ajay7235
+- 👀 I’m interested in ...
+- 🌱 I’m currently learning ...
+- 💞️ I’m looking to collaborate on ...
+- 📫 How to reach me ...
+
+<!---
+Ajay7235/Ajay7235 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+You can click the Preview link to take a look at your changes.
+--->
+import java.io.File; 
+import java.io.FileInputStream; 
+import java.io.IOException; 
+import java.io.RandomAccessFile; 
+import java.nio.charset.Charset; 
+import java.nio.charset.StandardCharsets; 
+import java.nio.file.Path; 
+import java.nio.file.Paths; 
+import org.apache.commons.io.FileUtils; 
+import org.apache.commons.io.IOUtils; 
+import com.google.common.io.ByteStreams; 
+import com.google.common.io.Files; 
+   
+/** 
+ * 
+ * @author Javin Paul 
+ */
+  
+public class Testing {
+  
+    public static void main(String args[]) throws IOException {
+  
+        // Example 1: Using Apache Commons IOUtils to read file into byte array
+  
+        byte[] filedata = IOUtils.toByteArray(new FileInputStream("info.xml"));
+  
+        String str = new String(filedata, "UTF-8");
+  
+        System.out.println("File to byte[] using IOUtils.toByteArray \n" + str);
+  
+        // Example 2: Reading File to byte[] using FileUtils class
+  
+        byte[] data = FileUtils.readFileToByteArray(new File("info.xml"));
+  
+        System.out.println("Converting File to byte[] using FileUtils \n"
+  
+                + new String(data, StandardCharsets.UTF_8));
+  
+        // Example 3: Using FileInputStream and JDK
+  
+        byte[] contents = readFile("info.xml");
+  
+        System.out.printf("File to byte[] Java without thirdpaty library %n %s %n",
+  
+                new String(contents, StandardCharsets.UTF_8));
+  
+        // Example 4: Using Google Guava, uses NIO
+  
+        byte[] bytes = Files.toByteArray(new File("info.xml"));
+  
+        System.out.printf("Convert File to byte array Using Google %n %s %n",
+  
+                new String(bytes, "UTF-8"));
+  
+        // Example 5:
+  
+        byte[] g2Bytes = ByteStreams.toByteArray(new FileInputStream("info.xml"));
+  
+        System.out.println("File to byte[] using Guvava \n " + new String(g2Bytes, "UTF-8"));
+  
+        // Example 6: Using JDK 7 NIO Path and Files class
+  
+        Path path = Paths.get("info.xml");
+  
+        byte[] raw = java.nio.file.Files.readAllBytes(path);
+  
+        System.out.println("Read File to byte[] in JDK 7 \n " + new String(raw, "UTF-8"));
+  
+        //Example 7: Using RandomAccessFile in Java
+  
+        RandomAccessFile f = new RandomAccessFile("info.xml", "rw");
+  
+        byte[] b = new byte[(int) f.length()];
+  
+        f.readFully(b);
+  
+        System.out.println("Load File to byte[] in Java using RandomAccessFile \n "
+  
+                + new String(b, "UTF-8"));
+  
+    }
+  
+    /*
+  
+     * Reading File into byte array using JDK classes only
+  
+     */
+  
+    public static byte[] readFile(String file) throws IOException {
+  
+        File f = new File(file);
+  
+        // work only for 2GB file, because array index can only upto Integer.MAX
+  
+        byte[] buffer = new byte[(int) f.length()];
+  
+        FileInputStream is = new FileInputStream(file);
+  
+        is.read(buffer);
+  
+        is.close();
+  
+        return buffer;
+  
+    }
+  
+}
